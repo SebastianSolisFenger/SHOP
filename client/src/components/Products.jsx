@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { popularProducts } from '../data';
+// import { popularProducts } from '../data';
 import axios from 'axios';
 import Product from './Product';
 
