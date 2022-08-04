@@ -163,6 +163,7 @@ const Product = () => {
 
   const handleClick = () => {
     //update cart
+    // I need to use dispatch caus react doesn't know this is a redux function
     dispatch(addProduct({ product, quantity }));
   };
 
