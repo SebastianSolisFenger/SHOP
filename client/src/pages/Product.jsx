@@ -135,6 +135,8 @@ const Product = () => {
 
   const [product, setProduct] = React.useState({});
 
+  const [quantity, setQuantity] = React.useState(1);
+
   useEffect(() => {
     const getProduct = async () => {
       try {
@@ -147,6 +149,14 @@ const Product = () => {
     getProduct();
   }, [id]);
 
+  const handleQuantity = (type) => {
+    if (type === 'dec') {
+      setQuantity(quantity - 1);
+    } else if (type === 'inc') {
+      setQuantity(quantity + 1);
+    }
+  };
+
   return (
     <Container>
       <Navbar />
@@ -156,38 +166,38 @@ const Product = () => {
           <Image src={product.img} />
         </ImgContainer>
         <InfoContainer>
-          <Title>Denim Jumpsuit</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
-            iaculis arcu nisi sed mauris. Nulla fermentum vestibulum ex, eget
-            tristique tortor pretium ut. Curabitur elit justo, consequat id
-            condimentum ac, volutpat ornare.
-          </Desc>
-          <Price>$ 20</Price>
+          <Title>{product.title}</Title>
+          <Desc>{product.desc}</Desc>
+          <Price>$ {product.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
+              {product.color?.map((c) => (
+                <FilterColor color={c} key={c} />
+              ))}
+              {/* <FilterColor color="black" />
               <FilterColor color="darkblue" />
-              <FilterColor color="gray" />
+              <FilterColor color="gray" /> */}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
               <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
+                {product.size?.map((s) => (
+                  <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                ))}
+                {/* <FilterSizeOption>XS</FilterSizeOption>
                 <FilterSizeOption>S</FilterSizeOption>
                 <FilterSizeOption>M</FilterSizeOption>
                 <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
+                <FilterSizeOption>XL</FilterSizeOption> */}
               </FilterSize>
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove onClick={() => handleQuantity('dec')} />
+              <Amount>{quantity}</Amount>
+              <Add onClick={() => handleQuantity('inc')} />
             </AmountContainer>
             <Button>ADD TO CART</Button>
           </AddContainer>
