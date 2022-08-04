@@ -134,8 +134,9 @@ const Product = () => {
   const id = location.pathname.split('/')[2];
 
   const [product, setProduct] = React.useState({});
-
   const [quantity, setQuantity] = React.useState(1);
+  const [size, setSize] = React.useState('');
+  const [color, setColor] = React.useState('');
 
   useEffect(() => {
     const getProduct = async () => {
@@ -151,10 +152,14 @@ const Product = () => {
 
   const handleQuantity = (type) => {
     if (type === 'dec') {
-      setQuantity(quantity - 1);
+      quantity > 1 && setQuantity(quantity - 1);
     } else if (type === 'inc') {
       setQuantity(quantity + 1);
     }
+  };
+
+  const handleClick = () => {
+    //update cart
   };
 
   return (
@@ -173,7 +178,7 @@ const Product = () => {
             <Filter>
               <FilterTitle>Color</FilterTitle>
               {product.color?.map((c) => (
-                <FilterColor color={c} key={c} />
+                <FilterColor color={c} key={c} onClick={() => setColor(c)} />
               ))}
               {/* <FilterColor color="black" />
               <FilterColor color="darkblue" />
@@ -181,7 +186,7 @@ const Product = () => {
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize>
+              <FilterSize onChange={(e) => setSize(e.target.value)}>
                 {product.size?.map((s) => (
                   <FilterSizeOption key={s}>{s}</FilterSizeOption>
                 ))}
@@ -199,7 +204,7 @@ const Product = () => {
               <Amount>{quantity}</Amount>
               <Add onClick={() => handleQuantity('inc')} />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Button onClick={handleClick}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>
