@@ -1,13 +1,13 @@
-const router = require('express').Router();
-const User = require('../models/user');
+const User = require('../models/User');
 const {
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
-} = require('../routes/verifyToken');
+} = require('./verifyToken');
+
+const router = require('express').Router();
 
 //UPDATE
-
 router.put('/:id', verifyTokenAndAuthorization, async (req, res) => {
   if (req.body.password) {
     req.body.password = CryptoJS.AES.encrypt(
@@ -30,17 +30,17 @@ router.put('/:id', verifyTokenAndAuthorization, async (req, res) => {
   }
 });
 
-// DELETE
+//DELETE
 router.delete('/:id', verifyTokenAndAuthorization, async (req, res) => {
   try {
-    const deletedUser = await User.findByIdAndDelete(req.params.id);
-    res.status(200).json('User has been deleted');
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json('User has been deleted...');
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-// GET USER
+//GET USER
 router.get('/find/:id', verifyTokenAndAdmin, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -51,7 +51,7 @@ router.get('/find/:id', verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
-// GET ALL USERS
+//GET ALL USER
 router.get('/', verifyTokenAndAdmin, async (req, res) => {
   const query = req.query.new;
   try {
@@ -64,22 +64,18 @@ router.get('/', verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
-// GET USER STATS WITH MONGODB
+//GET USER STATS
+
 router.get('/stats', verifyTokenAndAdmin, async (req, res) => {
   const date = new Date();
-  // return the last year
   const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
+
   try {
     const data = await User.aggregate([
-      {
-        // less than today and greater than last year
-        $match: { createdAt: { $gte: lastYear } },
-      },
+      { $match: { createdAt: { $gte: lastYear } } },
       {
         $project: {
-          month: {
-            $month: '$createdAt',
-          },
+          month: { $month: '$createdAt' },
         },
       },
       {
