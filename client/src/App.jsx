@@ -27,7 +27,7 @@ const App = () => {
           path="/login"
           element={user ? <Navigate replace to={'/'} /> : <Login />}
         />
-        {/* <Route path="/login">{user ? <Navigate to="/" /> : <Login />}</Route> */}
+        {/* <Route path="/login">{user ? <Navigate to="/" /> : <Login />}</Route> .*/}
         <Route
           path="/register"
           element={user ? <Navigate replace to={'/'} /> : <Register />}
