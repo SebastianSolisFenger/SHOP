@@ -176,19 +176,19 @@ const Cart = () => {
             {console.log(cart.products)}
             {cart
               ? cart.products?.map((product) => (
-                  <Product key={product.product._id}>
+                  <Product key={product._id}>
                     <ProductDetail>
-                      <Image src={product.product.img} />
+                      <Image src={product.img} />
                       <Details>
                         <ProductName>
-                          <b>Product:</b> {product.product.title}
+                          <b>Product:</b> {product.title}
                         </ProductName>
                         <ProductId>
-                          <b>ID:</b> {product.product._id}
+                          <b>ID:</b> {product._id}
                         </ProductId>
-                        <ProductColor color={product.product.color} />
+                        <ProductColor color={product.color} />
                         <ProductSize>
-                          <b>Size:</b> {product.product.size}
+                          <b>Size:</b> {product.size}
                         </ProductSize>
                       </Details>
                     </ProductDetail>
